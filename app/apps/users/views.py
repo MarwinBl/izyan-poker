@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import RedirectView, TemplateView
 
 from core.views import BaseView, LoginRequiredMixin

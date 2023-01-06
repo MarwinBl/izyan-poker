@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: wait-for db:5432 -- python run.py --no-uvicorn-debug
+    volumes:
+      - ./app/:/home/izyan/app/
+      - static_volume:/home/izyan/staticfiles
+      - media_volume:/home/izyan/media
+    env_file:
+      - ./.env
+    expose:
+      - 8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: izyan
+      POSTGRES_USER: izyan
+      POSTGRES_PASSWORD: izyan
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    volumes:
+      - static_volume:/home/izyan/staticfiles
+      - media_volume:/home/izyan/media
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
