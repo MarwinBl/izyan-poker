@@ -25,13 +25,12 @@ services:
       - postgres_data:/var/lib/postgresql/data/
 
   nginx:
+    container_name: nginx
     image: nginx:1.23-alpine
     restart: unless-stopped
     ports:
       - 8000:80
       - 443:443
-    environment:
-      - DOMAIN
     volumes:
       - static_volume:/home/izyan/staticfiles
       - ./media:/home/izyan/media

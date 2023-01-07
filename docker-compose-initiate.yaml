@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.23-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/templates-initiate:/etc/nginx/templates
+      - ./nginx/letsencrypt:/etc/letsencrypt
+      - ./nginx/certbot:/var/www/certbot
+    env_file:
+      - ./.env
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot:latest
+    depends_on:
+      - nginx
+    command: >- 
+             certonly --reinstall --webroot --webroot-path=/var/www/certbot
+             --email ${EMAIL} --agree-tos --no-eff-email
+             -d ${DOMAIN}
+    volumes:
+      - ./nginx/letsencrypt:/etc/letsencrypt
+      - ./nginx/certbot:/var/www/certbot
+    env_file:
+      - ./.env
