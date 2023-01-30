@@ -15,5 +15,5 @@ class IndexView(BaseView):
         ).values_list('room_id', flat=True) if self.user else ()
         return {
             'available_rooms': PokerRoom.objects.filter(id__in=room_ids),
-            'cards': PokerRound.CARDS,
+            'cards': PokerRound.TOCHKA_CARDS,
         }

@@ -227,7 +227,7 @@ class PokerRound(models.Model):
     @property
     def cards(self):
         """Get default playing cards."""
-        return self.CARDS
+        return self.TOCHKA_CARDS
 
     @property
     def html_name(self):
